@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Aprende HTML!</title>
+    <style>
+      body {
+        font-family: sans-serif;
+        display: flex;
+        gap: 20px;
+        margin: 0;
+        padding: 20px;
+      }
+      div.flex {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+      }
+      textarea {
+        height: 80vh;
+        font-size: 16px;
+        padding: 10px;
+      }
+      iframe {
+        height: 80vh;
+        border: 1px solid #ccc;
+        background: white;
+        padding: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="flex" style="width: 40%">
+      <h2>Código:</h2>
+      <textarea id="editor">
+<cuerpo>
+  <bloque fondo="blue">
+    <titulo color="white">¡Hola, creemos páginas!</titulo>
+  </bloque>
+
+  <bloque fondo="red" color="white">
+    <texto>Este bloque está horizontal</texto>
+  </bloque>
+
+  <lado>
+    <texto borde="red">Esto aparece a la izquierda</texto>
+    <texto>Esto aparece a la derecha</texto>
+  </lado>
+
+  <bloque>
+    <texto>Este bloque está abajo</texto>
+  </bloque>
+</cuerpo>
+</textarea
+      >
+    </div>
+
+    <div class="flex" style="width: 60%">
+      <h2>Resultado:</h2>
+      <iframe id="preview"></iframe>
+    </div>
+    <script>
+      function interpretar(codigo) {
+        const etiquetasPersonalizadas = {
+          bloque: "div",
+          lado: "div",
+          titulo: "h1",
+          texto: "p",
+        };
+
+        const conEstilos = codigo.replace(
+          /<(\w+)([^>]*)>/g,
+          (_, tag, atributosRaw) => {
+            if (!(tag in etiquetasPersonalizadas)) return `<${tag}>`;
+
+            // get attributes (ie: fondo="azul" color="white")
+            const atributos = {};
+            const regexAttr = /(\w+)="(.*?)"/g;
+            let match;
+            while ((match = regexAttr.exec(atributosRaw))) {
+              atributos[match[1]] = match[2];
+            }
+
+            // generate inline styles
+            const style = [];
+            if (atributos.fondo) {
+              style.push(`background-color: ${atributos.fondo}`);
+            }
+            if (atributos.color) {
+              style.push(`color: ${atributos.color}`);
+            }
+            if (atributos.borde) {
+              style.push(`border: 1px solid ${atributos.borde}`);
+            }
+            const styleAttr =
+              style.length > 0 ? ` style="${style.join("; ")}"` : "";
+
+            // generate final tag
+            const tagFinal = etiquetasPersonalizadas[tag];
+            const classAttr = tagFinal === "div" ? ` class="${tag}"` : "";
+
+            return `<${tagFinal}${classAttr}${styleAttr}>`;
+          }
+        );
+
+        return `
+        <html>
+          <head>
+            <style>
+            body {
+              font-family: sans-serif;
+              padding: 20px;
+            }
+
+            .cuerpo {
+              display: flex;
+              flex-direction: column;
+              gap: 10px;
+            }
+
+            .bloque {
+              display: flex;
+              flex-direction: column;
+
+              * {
+                padding: 10px;
+                margin-bottom: 10px;
+                border-radius: 5px;
+              }
+            }
+
+            .lado {
+              display: flex;
+              flex-direction: row;
+              gap: 10px;
+
+              * {
+                padding: 10px;
+                border-radius: 5px;
+              }
+            }
+
+            p {
+              margin: 0;
+            }
+
+            .titulo {
+              font-size: 24px;
+            }
+
+            </style>
+          </head>
+          <body>
+            ${conEstilos
+              .replaceAll("<cuerpo>", '<div class="cuerpo">')
+              .replaceAll("</cuerpo>", "</div>")
+              .replaceAll("</bloque>", "</div>")
+              .replaceAll("</lado>", "</div>")
+              .replaceAll("</texto>", "</p>")
+              .replaceAll("</titulo>", "</h1>")}
+          </body>
+        </html>
+      `;
+      }
+
+      const editor = document.getElementById("editor");
+      const preview = document.getElementById("preview");
+
+      function actualizarVista() {
+        const html = interpretar(editor.value);
+        preview.srcdoc = html;
+      }
+
+      editor.addEventListener("input", actualizarVista);
+      actualizarVista(); // first render
+    </script>
+  </body>
+</html>
