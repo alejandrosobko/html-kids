@@ -58,6 +58,7 @@ function interpretar(codigo) {
             .bloque {
               display: flex;
               flex-direction: column;
+              border-radius: 5px;
 
               * {
                 padding: 10px;
@@ -70,6 +71,7 @@ function interpretar(codigo) {
               display: flex;
               flex-direction: row;
               gap: 10px;
+              border-radius: 5px;
 
               * {
                 padding: 10px;
@@ -106,6 +108,14 @@ const preview = document.getElementById("preview")
 function actualizarVista() {
   const html = interpretar(editor.value)
   preview.srcdoc = html
+
+  if (editor.value === "") {
+    document.getElementById("code-msg").classList.add("hidden")
+    document.getElementById("result-msg").classList.add("hidden")
+  } else {
+    document.getElementById("code-msg").classList.remove("hidden")
+    document.getElementById("result-msg").classList.remove("hidden")
+  }
 }
 
 editor.addEventListener("input", actualizarVista)
