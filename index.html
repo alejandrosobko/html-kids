@@ -6,9 +6,20 @@
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
-    <div class="flex" style="width: 40%">
-      <h2>Código:</h2>
-      <textarea id="editor">
+    <h1>🚀 ¡Aprende HTML Jugando! ✨</h1>
+    <h2>Escribe tu código y ve la magia suceder ✨</h2>
+
+    <div class="flex">
+      <div class="code-section">
+        <div class="flex">
+          <h3>Tu código:</h3>
+          <div class="dots">
+            <div class="dot red"></div>
+            <div class="dot orange"></div>
+            <div class="dot green"></div>
+          </div>
+        </div>
+        <textarea id="editor" placeholder="Escribe tu código aquí">
 <cuerpo>
   <bloque fondo="blue">
     <titulo color="white">¡Hola, creemos páginas!</titulo>
@@ -28,12 +39,20 @@
   </bloque>
 </cuerpo>
 </textarea
-      >
-    </div>
+        >
+      </div>
 
-    <div class="flex" style="width: 60%">
-      <h2>Resultado:</h2>
-      <iframe id="preview"></iframe>
+      <div class="result-section">
+        <div class="flex">
+          <h3>¡Tu resultado!</h3>
+          <div class="dots">
+            <div class="dot red"></div>
+            <div class="dot orange"></div>
+            <div class="dot green"></div>
+          </div>
+        </div>
+        <iframe id="preview"></iframe>
+      </div>
     </div>
   </body>
 
