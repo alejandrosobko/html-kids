@@ -2,6 +2,8 @@
 
 Enseña a los niños a crear páginas web con este lenguaje HTML simplificado.
 
+**Live**: https://html-kids.vercel.app/
+
 ![HTML Kids](./assets/preview.webp)
 
 ## Docs
